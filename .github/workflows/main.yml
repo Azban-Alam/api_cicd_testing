@@ -1,0 +1,23 @@
+name: Run Postman CLI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:   # allows manual trigger from GitHub Actions tab
+
+jobs:
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | bash
+
+      - name: Run Postman collection
+        run: |
+          postman collection run "https://api.getpostman.com/collections/12248282-c7b675af-3ad6-4373-ba6d-7e9a3c83e3c8?apikey=${{ secrets.POSTMAN_API_KEY }}"
